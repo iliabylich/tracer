@@ -1,0 +1,13 @@
+[package]
+edition = "2021"
+name = "tracer"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.6.18"
+tokio = {version = "1", features = ["full"]}
+tower-http = {version = "0.4.1", features = ["trace"]}
+tracing = "0.1.37"
+tracing-subscriber = {version = "0.3.17", features = ["env-filter"]}
