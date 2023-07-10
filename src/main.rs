@@ -1,11 +1,19 @@
 use axum::{routing::get, Router};
-
+use clap::Parser;
 use std::net::SocketAddr;
 use tower_http::trace::{self, TraceLayer};
 use tracing::Level;
 
+#[derive(Parser, Debug)]
+struct Args {
+    #[arg(short, long)]
+    port: u16,
+}
+
 #[tokio::main]
 async fn main() {
+    let args = Args::parse();
+
     tracing_subscriber::fmt()
         .with_target(false)
         .compact()
@@ -17,7 +25,7 @@ async fn main() {
             .on_response(trace::DefaultOnResponse::new().level(Level::INFO)),
     );
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([127, 0, 0, 1], args.port));
     tracing::info!("listening on {}", addr);
 
     axum::Server::bind(&addr)
